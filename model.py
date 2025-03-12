@@ -89,8 +89,8 @@ class FacialActionModelWithAuxLoss(nn.Module):
         # 动作分组（根据提供的ACTION_DEPENDENCIES分组）
         self.jaw_group = nn.Linear(256, 4)  # jawOpen, jawLeft, jawRight, jawForward
         self.tongue_group = nn.Linear(256, 12)  # 所有舌头相关动作
-        self.mouth_group = nn.Linear(256, 22)  # 所有嘴相关动作
-        self.cheek_group = nn.Linear(256, 5)  # 所有脸颊相关动作
+        self.mouth_group = nn.Linear(256, 23)  # 所有嘴相关动作
+        self.cheek_group = nn.Linear(256, 4)  # 所有脸颊相关动作
         
     def forward(self, x):
         # 使用主模型提取特征
@@ -333,7 +333,7 @@ def train_model(model, train_loader, val_loader, num_epochs=50, learning_rate=0.
                 # 这里只是示意，需要根据实际的标签索引进行调整
                 jaw_indices = [4, 5, 6, 41]  # 对应jaw相关动作在标签中的索引
                 tongue_indices = list(range(29, 41))  # 舌头相关动作
-                mouth_indices = list(range(9, 29)) + [42]  # 嘴相关动作
+                mouth_indices = list(range(7, 29)) + [42]  # 嘴相关动作
                 cheek_indices = list(range(0, 4))  # 脸颊相关动作
                 
                 jaw_loss = criterion(jaw_out, labels[:, jaw_indices])
