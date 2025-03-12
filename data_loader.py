@@ -422,4 +422,4 @@ if __name__ == "__main__":
     print(f"使用标签置信度阈值: {threshold}")
     
     print("\n可视化训练集样本:")
-    visualize_batch_samples(train_loader, num_samples=3, threshold=threshold)
+    visualize_batch_samples(train_loader, num_samples=10, threshold=threshold)
