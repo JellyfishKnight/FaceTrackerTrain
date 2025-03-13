@@ -7,7 +7,7 @@ from model import FacialActionModelWithAuxLoss  # 确保导入你的模型类
 
 def load_model(pth_path, num_classes=43, device="cpu"):
     """加载 PyTorch 模型"""
-    model = FacialActionModelWithAuxLoss(num_classes=num_classes)
+    model = FacialActionModelWithAuxLoss(num_classes=num_classes, backbone='shufflenet', pretrained=True)
     model.load_state_dict(torch.load(pth_path, map_location=device))
     model.to(device)
     model.eval()  # 设为推理模式

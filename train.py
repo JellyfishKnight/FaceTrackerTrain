@@ -27,7 +27,7 @@ if __name__ == "__main__":
     print(f"类别数: {num_classes}")
     
     # 创建模型
-    model = FacialActionModelWithAuxLoss(num_classes=num_classes, backbone="resnet50")
+    model = FacialActionModelWithAuxLoss(num_classes=num_classes, backbone="shufflenet")
     
     # 训练模型
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -60,21 +60,21 @@ if __name__ == "__main__":
     print(f"整体准确率: {metrics['accuracy']:.4f}")
     print(f"平均F1分数: {metrics['f1_score']:.4f}")
     
-    # 也可以加载并评估最佳模型
-    best_model_path = os.path.join(experiment_dir, 'best_facial_action_model.pth')
-    if os.path.exists(best_model_path):
-        print("\n加载并评估最佳模型...")
-        best_model = FacialActionModelWithAuxLoss(num_classes=num_classes, backbone="resnet50")
-        best_model.load_state_dict(torch.load(best_model_path))
+    # # 也可以加载并评估最佳模型
+    # best_model_path = os.path.join(experiment_dir, 'best_facial_action_model.pth')
+    # if os.path.exists(best_model_path):
+    #     print("\n加载并评估最佳模型...")
+    #     best_model = FacialActionModelWithAuxLoss(num_classes=num_classes, backbone="resnet50")
+    #     best_model.load_state_dict(torch.load(best_model_path))
         
-        best_metrics = evaluate_model(
-            best_model, 
-            test_loader, 
-            device=device,
-            output_dir=os.path.join(experiment_dir, 'best_model_evaluation')
-        )
+    #     best_metrics = evaluate_model(
+    #         best_model, 
+    #         test_loader, 
+    #         device=device,
+    #         output_dir=os.path.join(experiment_dir, 'best_model_evaluation')
+    #     )
         
-        print("\n最佳模型评估结果:")
-        print(f"测试损失: {best_metrics['test_loss']:.4f}")
-        print(f"整体准确率: {best_metrics['accuracy']:.4f}")
-        print(f"平均F1分数: {best_metrics['f1_score']:.4f}")
+    #     print("\n最佳模型评估结果:")
+    #     print(f"测试损失: {best_metrics['test_loss']:.4f}")
+    #     print(f"整体准确率: {best_metrics['accuracy']:.4f}")
+    #     print(f"平均F1分数: {best_metrics['f1_score']:.4f}")

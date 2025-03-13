@@ -26,3 +26,5 @@
 
 *.pth
 *.json
+
+*.onnx

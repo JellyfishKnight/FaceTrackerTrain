@@ -31,15 +31,41 @@ class FacialActionModel(nn.Module):
         
         # 选择骨干网络
         if backbone == "resnet50":
+            print("使用ResNet50作为骨干网络")
             base_model = models.resnet50(pretrained=pretrained)
             self.feature_extractor = nn.Sequential(*list(base_model.children())[:-2])
             feature_dim = 2048
         elif backbone == "resnet18":
+            print("使用ResNet18作为骨干网络")
             base_model = models.resnet18(pretrained=pretrained)
             self.feature_extractor = nn.Sequential(*list(base_model.children())[:-2])
             feature_dim = 512
         elif backbone == "efficientnet":
+            print("使用EfficientNet作为骨干网络")
             base_model = models.efficientnet_b0(pretrained=pretrained)
+            self.feature_extractor = base_model.features
+            feature_dim = 1280
+        elif backbone == "resnet34":
+            print("使用ResNet34作为骨干网络")
+            base_model = models.resnet34(pretrained=pretrained)
+            self.feature_extractor = nn.Sequential(*list(base_model.children())[:-2])
+            feature_dim = 512
+        elif backbone == "shufflenet":
+            print("使用ShuffleNet作为骨干网络")
+            base_model = models.shufflenet_v2_x1_0(pretrained=pretrained)
+            # 将 shufflenet 的 conv1、maxpool、stage2、stage3、stage4 和 conv5 层组合起来作为特征提取器
+            self.feature_extractor = nn.Sequential(
+                base_model.conv1,
+                base_model.maxpool,
+                base_model.stage2,
+                base_model.stage3,
+                base_model.stage4,
+                base_model.conv5,
+            )
+            feature_dim = 1024
+        elif backbone == "mobilenet":
+            print("使用MobileNet作为骨干网络")
+            base_model = models.mobilenet_v2(pretrained=pretrained)
             self.feature_extractor = base_model.features
             feature_dim = 1280
         else:
